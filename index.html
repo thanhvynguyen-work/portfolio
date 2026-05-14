@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/svg+xml" href="assets/logo_colored.svg" />
   <link rel="mask-icon" href="assets/logo.svg" />
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/logo.svg"" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/logo.svg" />
   <title>Thanh Vy Nguyen</title>
   <meta name="description" content="Fresh graduate in financial mathematics and fintech, seeking roles at the intersection of financial markets, data, and technology." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -32,6 +32,8 @@
       --blue: #185FA5;
       --blue-bg: #E6F1FB;
       --blue-text: #0C447C;
+      --error: #C0392B;
+      --error-bg: #FDF0EE;
       --serif: 'DM Serif Display', Georgia, serif;
       --sans: 'Instrument Sans', system-ui, sans-serif;
       --mono: 'DM Mono', 'Courier New', monospace;
@@ -66,6 +68,8 @@
         --blue: #378ADD;
         --blue-bg: #042C53;
         --blue-text: #B5D4F4;
+        --error: #E05C4B;
+        --error-bg: #2C1210;
       }
     }
 
@@ -112,10 +116,6 @@
     .degree-card-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 4px; }
     .degree-card-title { font-size: 14px; font-weight: 500; line-height: 1.3; }
     .degree-card-uni { font-size: 12px; color: var(--text-2); margin-top: 2px; }
-    .degree-card-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5px; background: var(--border); }
-    .degree-stat { background: var(--bg); padding: 0.85rem 1rem; }
-    .degree-stat-num { font-family: var(--serif); font-size: 20px; display: block; line-height: 1; margin-bottom: 3px; }
-    .degree-stat-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; color: var(--text-3); }
     .affiliation-list { display: flex; flex-direction: column; gap: 6px; }
     .affiliation { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-2); }
     .affiliation::before { content: ''; width: 3px; height: 3px; border-radius: 50%; background: var(--text-3); flex-shrink: 0; }
@@ -199,20 +199,95 @@
     .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
     .contact-heading { font-family: var(--serif); font-size: clamp(26px, 4vw, 40px); font-weight: 400; line-height: 1.15; letter-spacing: -0.02em; }
     .contact-heading em { font-style: italic; color: var(--text-2); }
-    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
-    .form-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--text-3); font-weight: bold; }
-    .form-label:after { content: '*'; color: var(--amber); margin-left: 2px; }
-    .form-input, .form-textarea { font-family: var(--sans); font-size: 14px; background: var(--bg); color: var(--text); border: 0.5px solid var(--border-2); border-radius: var(--radius); padding: 10px 14px; outline: none; width: 100%; transition: border-color var(--transition); }
-    .form-input:focus, .form-textarea:focus { border-color: var(--border-3); }
-    .form-textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
-    .form-submit { font-family: var(--mono); font-size: 12px; letter-spacing: 0.05em; padding: 11px 22px; background: var(--text); color: var(--bg); border: none; border-radius: var(--radius); cursor: pointer; align-self: flex-start; transition: opacity var(--transition), transform 0.24s var(--ease-spring), box-shadow 0.24s ease; }
-    .form-submit:hover { opacity: 0.8; transform: var(--lift); box-shadow: 0 8px 22px rgba(0,0,0,0.16); }
     .contact-links { display: flex; flex-direction: column; margin-top: 2rem; }
     .contact-link { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-2); text-decoration: none; padding: 10px 0; border-bottom: 0.5px solid var(--border); transition: color var(--dur-fast) ease, padding-left 0.24s var(--ease-spring); }
     .contact-link:last-child { border-bottom: none; }
     .contact-link:hover { color: var(--text); padding-left: 8px; }
     .contact-link-label { font-family: var(--mono); font-size: 11px; color: var(--text-3); margin-left: auto; letter-spacing: 0.04em; }
+
+    /* ── CONTACT FORM ── */
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--text-3); font-weight: bold; }
+    .form-label::after { content: '*'; color: var(--amber); margin-left: 2px; }
+
+    /* Base input — neutral border */
+    .form-input,
+    .form-textarea {
+      font-family: var(--sans); font-size: 14px;
+      background: var(--bg); color: var(--text);
+      border: 1.5px solid var(--border-2);
+      border-radius: var(--radius);
+      padding: 10px 14px; outline: none; width: 100%;
+      transition: border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+    }
+
+    /* Focus — subtle accent ring */
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(29,158,117,0.10);
+    }
+
+    /* Invalid — red border + light red tint */
+    .form-input.invalid,
+    .form-textarea.invalid {
+      border-color: var(--error) !important;
+      background: var(--error-bg);
+      box-shadow: 0 0 0 3px rgba(192,57,43,0.10);
+    }
+
+    /* Valid — green border */
+    .form-input.valid,
+    .form-textarea.valid {
+      border-color: var(--accent);
+      box-shadow: none;
+    }
+
+    .form-textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+
+    /* Error message under field */
+    .form-error {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em;
+      color: var(--error); min-height: 14px; display: block;
+      transition: opacity 0.2s ease;
+    }
+
+    /* Char counter row */
+    .form-footer-row {
+      display: flex; justify-content: space-between; align-items: center; min-height: 14px;
+    }
+    .char-count {
+      font-family: var(--mono); font-size: 10px; color: var(--text-3);
+      transition: color 0.2s ease;
+    }
+    .char-count.warn  { color: var(--amber); }
+    .char-count.ok    { color: var(--accent); }
+
+    /* Submit button */
+    .form-submit {
+      font-family: var(--mono); font-size: 12px; letter-spacing: 0.05em;
+      padding: 11px 22px; background: var(--text); color: var(--bg);
+      border: none; border-radius: var(--radius); cursor: pointer;
+      align-self: flex-start; position: relative; min-width: 90px;
+      transition: opacity var(--transition), transform 0.24s var(--ease-spring), box-shadow 0.24s ease;
+    }
+    .form-submit:hover:not(:disabled) { opacity: 0.8; transform: var(--lift); box-shadow: 0 8px 22px rgba(0,0,0,0.16); }
+    .form-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .form-submit .btn-text { transition: opacity 0.15s; }
+    .form-submit .btn-spinner { display: none; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 15px; height: 15px; border: 2px solid rgba(255,255,255,0.3); border-top-color: var(--bg); border-radius: 50%; animation: spin 0.7s linear infinite; }
+    .form-submit.loading .btn-text { opacity: 0; }
+    .form-submit.loading .btn-spinner { display: block; }
+    @keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+    /* Success banner */
+    .form-success {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em;
+      color: var(--accent-text); background: var(--accent-bg);
+      border: 0.5px solid var(--accent); border-radius: var(--radius);
+      padding: 10px 14px; display: none;
+    }
+    .form-success.show { display: block; }
 
     /* FOOTER */
     footer { padding: 2rem 0; border-top: 0.5px solid var(--border); }
@@ -225,83 +300,50 @@
     /* ══════════════════════════════════════════════════
        UNIFIED SCROLL ANIMATION SYSTEM
     ══════════════════════════════════════════════════ */
-
-    /* All animated elements start invisible */
     .pop-item, .pop-hero, .pop-header,
     .fade-up, .slide-left, .slide-right,
     .proj-flip-left, .proj-drop, .proj-flip-right, .proj-zoom { opacity: 0; }
 
-    /* HERO — slides from right on load */
-    .pop-hero {
-      transform: translateX(48px);
-      transition: opacity var(--dur-slow) var(--ease-spring), transform var(--dur-slow) var(--ease-spring);
-    }
+    .pop-hero { transform: translateX(48px); transition: opacity var(--dur-slow) var(--ease-spring), transform var(--dur-slow) var(--ease-spring); }
     .pop-hero.in { opacity: 1; transform: none; }
     .pop-hero.out { opacity: 0; transform: translateX(32px); }
 
-    /* SECTION HEADERS — slide from right */
-    .pop-header {
-      transform: translateX(40px);
-      transition: opacity var(--dur-mid) var(--ease-spring), transform var(--dur-mid) var(--ease-spring);
-    }
+    .pop-header { transform: translateX(40px); transition: opacity var(--dur-mid) var(--ease-spring), transform var(--dur-mid) var(--ease-spring); }
     .pop-header.in { opacity: 1; transform: none; }
     .pop-header.out { opacity: 0; transform: translateX(24px); }
 
-    /* CARDS / BLOCKS — rise from below with scale */
-    .pop-item {
-      transform: translateY(32px) scale(0.97);
-      transition: opacity var(--dur-slow) var(--ease-spring), transform var(--dur-slow) var(--ease-spring), box-shadow 0.5s ease;
-      will-change: opacity, transform;
-    }
+    .pop-item { transform: translateY(32px) scale(0.97); transition: opacity var(--dur-slow) var(--ease-spring), transform var(--dur-slow) var(--ease-spring), box-shadow 0.5s ease; will-change: opacity, transform; }
     .pop-item.in { opacity: 1; transform: none; }
     .pop-item.out { opacity: 0; transform: translateY(20px) scale(0.98); }
 
-    /* SKILLS — gentle fade up, no color flash */
-    .fade-up {
-      transform: translateY(24px);
-      transition: opacity var(--dur-slow) var(--ease-spring), transform var(--dur-slow) var(--ease-spring);
-    }
+    .fade-up { transform: translateY(24px); transition: opacity var(--dur-slow) var(--ease-spring), transform var(--dur-slow) var(--ease-spring); }
     .fade-up.in { opacity: 1; transform: none; }
     .fade-up.out { opacity: 0; transform: translateY(14px); }
 
-    /* TIMELINE — slide from left */
-    .slide-left {
-      transform: translateX(-40px);
-      transition: opacity var(--dur-slow) var(--ease-spring), transform var(--dur-slow) var(--ease-spring);
-    }
+    .slide-left { transform: translateX(-40px); transition: opacity var(--dur-slow) var(--ease-spring), transform var(--dur-slow) var(--ease-spring); }
     .slide-left.in { opacity: 1; transform: none; }
     .slide-left.out { opacity: 0; transform: translateX(-24px); }
 
-    /* CONTACT — slide from right */
-    .slide-right {
-      transform: translateX(48px);
-      transition: opacity var(--dur-slow) var(--ease-spring), transform var(--dur-slow) var(--ease-spring);
-    }
+    .slide-right { transform: translateX(48px); transition: opacity var(--dur-slow) var(--ease-spring), transform var(--dur-slow) var(--ease-spring); }
     .slide-right.in { opacity: 1; transform: none; }
     .slide-right.out { opacity: 0; transform: translateX(30px); }
 
-    /* PROJECT CARDS — unique entrances per card */
-    .proj-flip-left, .proj-drop, .proj-flip-right, .proj-zoom {
-      will-change: opacity, transform;
-      transition: opacity 0.6s var(--ease-spring), transform 0.6s var(--ease-spring), background var(--dur-fast) ease, box-shadow 0.28s ease;
-    }
+    .proj-flip-left, .proj-drop, .proj-flip-right, .proj-zoom { will-change: opacity, transform; transition: opacity 0.6s var(--ease-spring), transform 0.6s var(--ease-spring), background var(--dur-fast) ease, box-shadow 0.28s ease; }
     .proj-flip-left  { transform: translateX(-48px) rotate(-2deg); }
     .proj-drop       { transform: translateY(-44px) scale(0.95); transition-delay: 0.10s; }
-    .proj-flip-right { transform: translateX(48px)  rotate(2deg);  transition-delay: 0.18s; }
-    .proj-zoom       { transform: translateY(36px)  scale(0.88);   transition-delay: 0.26s; }
+    .proj-flip-right { transform: translateX(48px) rotate(2deg); transition-delay: 0.18s; }
+    .proj-zoom       { transform: translateY(36px) scale(0.88); transition-delay: 0.26s; }
     .proj-flip-left.in, .proj-drop.in, .proj-flip-right.in, .proj-zoom.in { opacity: 1; transform: none; }
     .proj-flip-left.out  { opacity: 0; transform: translateX(-28px) rotate(-1.5deg); }
     .proj-drop.out       { opacity: 0; transform: translateY(-24px) scale(0.97); }
     .proj-flip-right.out { opacity: 0; transform: translateX(28px) rotate(1.5deg); }
     .proj-zoom.out       { opacity: 0; transform: translateY(20px) scale(0.93); }
 
-    /* Glow flash — shadow only, no border */
     .pop-item.flash-teal   { box-shadow: 0 6px 36px rgba(29,158,117,0.20); }
     .pop-item.flash-blue   { box-shadow: 0 6px 36px rgba(24,95,165,0.20); }
     .pop-item.flash-amber  { box-shadow: 0 6px 36px rgba(186,117,23,0.20); }
     .pop-item.flash-gone   { box-shadow: none; }
 
-    /* Stagger delays */
     .delay-1 { transition-delay: 0.00s; }
     .delay-2 { transition-delay: 0.08s; }
     .delay-3 { transition-delay: 0.16s; }
@@ -335,17 +377,16 @@
     }
   </style>
 </head>
-  
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0NFCYPZGSL"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-0NFCYPZGSL');
 </script>
-  
+
 <body>
   <nav>
     <div class="nav-inner">
@@ -354,9 +395,6 @@
         <li><a href="#research">Research</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#skills">Skills</a></li>
-        <!--
-        <li><a href="#education">Education</a></li>
-        -->
         <li><a href="#contact">Contact</a></li>
       </ul>
       <a class="nav-cta" href="mailto:thanhvynguyen.research@gmail.com"><b>Get in touch →</b></a>
@@ -386,9 +424,6 @@
           </p>
           <div class="hero-actions pop-hero delay-4">
             <a class="btn btn-primary" href="#research">View my work →</a>
-            <!--
-            <a class="btn btn-ghost" href="resume.pdf" target="_blank">Download CV</a>
-            -->
           </div>
         </div>
         <div class="hero-aside">
@@ -400,11 +435,6 @@
               <div class="degree-card-uni">Fachhochschule Südwestfalen · 10/2020 – Present</div>
             </div>
           </div>
-          <!--
-          <div class="affiliation-list pop-hero delay-4">
-            <div class="affiliation"><b>Bachelor Thesis:</b> <i>News Sentiment on Apple Stock</i></div>
-          </div>
-          -->
         </div>
       </div>
     </div>
@@ -419,13 +449,10 @@
       <div class="thesis-block pop-item delay-1">
         <div class="thesis-header">
           <span class="thesis-header-label">Bachelor's Dissertation · 04/2026</span>
-          <!-- <span class="badge badge-pub">Distinction</span> -->
         </div>
         <div class="thesis-body">
           <h2 class="thesis-title">The Impact of News Sentiment on Daily Trading Volumes and Stock Prices: The Case of Apple Inc.</h2>
-          <p class="thesis-excerpt">Examining how daily news sentiment drive market reaction, relfected in the variations in daily stock exchange of Apple Inc.. 
-            Drawing on 10 months of historical trading data, I found that news has adverse effects on daily trading volume and prices, and proposed that sentiment should be considered in algorithmic trading. 
-            In addition, a new hybrid sentiment index was proposed as a solid measure for news sentiment for frequent trading strategies. </p>
+          <p class="thesis-excerpt">Examining how daily news sentiment drive market reaction, reflected in the variations in daily stock exchange of Apple Inc. Drawing on 10 months of historical trading data, I found that news has adverse effects on daily trading volume and prices, and proposed that sentiment should be considered in algorithmic trading. In addition, a new hybrid sentiment index was proposed as a solid measure for news sentiment for frequent trading strategies.</p>
           <div class="thesis-meta">
             <span class="badge badge-pub">Financial Times</span>
             <span class="badge badge-pub">Apple Inc.</span>
@@ -457,8 +484,22 @@
             <div class="project-tech">
               <span class="badge">Python</span>
               <span class="badge">Scikit-Learn</span>
-              <span class="badge">BS4</span>
               <span class="badge">SVM</span>
+            </div>
+            <span class="project-status status-live">Open Source ↗</span>
+          </div>
+        </a>
+        <a class="project-card proj-drop" href="#" target="_blank">
+          <div class="project-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div class="project-name">Basic Web Scraper for News Headlines</div>
+          <p class="project-desc">A lightweight scraper that collects and structures Financial Times headlines and articles for use in downstream sentiment analysis pipelines.</p>
+          <div class="project-footer">
+            <div class="project-tech">
+              <span class="badge">Python</span>
+              <span class="badge">BS4</span>
+              <span class="badge">Financial Times</span>
             </div>
             <span class="project-status status-live">Open Source ↗</span>
           </div>
@@ -476,7 +517,7 @@
         <div class="fade-up delay-1">
           <p class="skill-group-title">Quantitative</p>
           <ul class="skill-list">
-            <li class="skill-item">Regression Modeling  & Causal Inference</li>
+            <li class="skill-item">Regression Modeling & Causal Inference</li>
             <li class="skill-item">Time Series</li>
             <li class="skill-item">Sentiment Analysis</li>
           </ul>
@@ -501,55 +542,12 @@
       </div>
     </section>
 
-
-    <!-- EDUCATION -->
-    <!--
-    <section id="education" data-color="amber">
-      <div class="section-header pop-header">
-        <span class="section-label">Education</span>
-        <div class="section-line"></div>
-      </div>
-      <div class="timeline" style="margin-bottom: 2.5rem;">
-        <div class="timeline-item slide-left delay-1">
-          <span class="timeline-year">10/2020 – Present</span>
-          <div>
-            <div class="timeline-title">B.A. Business Administration with Informatics — Fachhochschule Südwestfalen</div>
-            <div class="timeline-sub">Graduated with distinction. Dissertation on DeFi liquidity fragmentation. Focused on quantitative finance, stochastic modelling, and financial regulation.</div>
-            <div class="timeline-tags"><span class="badge badge-pub">Distinction</span><span class="badge">GPA 3.9</span></div>
-          </div>
-        </div>
-        <div class="timeline-item slide-left delay-2">
-          <span class="timeline-year">10/2019 – 08/2020</span>
-          <div>
-            <div class="timeline-title">Studienkolleg — Fachhochschule Aachen</div>
-            <div class="timeline-sub">First class honours. Undergraduate thesis on high-frequency order flow. Electives in game theory, econometrics, and financial economics.</div>
-            <div class="timeline-tags"><span class="badge badge-pub">First class</span><span class="badge">Dean's list</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="section-header pop-header" style="margin-top: 2rem;">
-        <span class="section-label">Relevant coursework</span>
-        <div class="section-line"></div>
-      </div>
-      <div class="course-grid">
-        <div class="course-item fade-up delay-1"><span class="course-name">Advanced Monetary Economics</span><span class="course-grade">A</span></div>
-        <div class="course-item fade-up delay-2"><span class="course-name">Market Microstructure & Trading</span><span class="course-grade">A+</span></div>
-        <div class="course-item fade-up delay-3"><span class="course-name">Stochastic Calculus for Finance</span><span class="course-grade">A</span></div>
-        <div class="course-item fade-up delay-4"><span class="course-name">Machine Learning in Finance</span><span class="course-grade">A</span></div>
-        <div class="course-item fade-up delay-5"><span class="course-name">Financial Regulation & Policy</span><span class="course-grade">A−</span></div>
-        <div class="course-item fade-up delay-6"><span class="course-name">Blockchain & Digital Assets</span><span class="course-grade">A+</span></div>
-        <div class="course-item fade-up delay-7"><span class="course-name">Fixed Income & Derivatives</span><span class="course-grade">A</span></div>
-        <div class="course-item fade-up delay-8"><span class="course-name">Computational Finance</span><span class="course-grade">A</span></div>
-      </div>
-    </section>
-    -->
-
     <!-- CONTACT -->
     <section id="contact" class="contact-section">
       <div class="contact-inner">
         <div class="slide-right delay-1">
           <h2 class="contact-heading">Looking for my<br><em>first great role.</em></h2>
-          <p style="font-size: 14px; color: var(--text-2); line-height: 1.75; margin-top: 1.25rem; max-width: 340px;">I'm open to graduate analyst roles, research positions, and internships in fintech, quantitative finance, and digital assets. Happy to chat about my work.</p>
+          <p style="font-size: 14px; color: var(--text-2); line-height: 1.75; margin-top: 1.25rem; max-width: 340px;">I'm open to graduate analyst roles, research positions, and internships in fintech and quantitative finance. Happy to chat about my work.</p>
           <div class="contact-links">
             <a class="contact-link" href="mailto:thanhvynguyen.research@gmail.com">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2 8 12 13 22 8"/></svg>
@@ -557,21 +555,39 @@
             </a>
           </div>
         </div>
+
+        <!-- FORM -->
         <div class="slide-right delay-3">
-          <div class="contact-form">
+          <div class="contact-form" id="contactForm">
+
             <div class="form-group">
               <label class="form-label" for="name">Full Name</label>
-              <input class="form-input" id="name" type="text" placeholder="Your name" />
+              <input class="form-input" id="name" type="text" placeholder="Your name" autocomplete="name" />
+              <span class="form-error" id="nameError"></span>
             </div>
+
             <div class="form-group">
               <label class="form-label" for="email">Email</label>
-              <input class="form-input" id="email" type="email" placeholder="you@example.com" />
+              <input class="form-input" id="email" type="email" placeholder="you@example.com" autocomplete="email" />
+              <span class="form-error" id="emailError"></span>
             </div>
+
             <div class="form-group">
               <label class="form-label" for="message">Message</label>
               <textarea class="form-textarea" id="message" placeholder="Tell me about the role or project…"></textarea>
+              <div class="form-footer-row">
+                <span class="form-error" id="messageError"></span>
+                <span class="char-count" id="charCount">0 / 25 min</span>
+              </div>
             </div>
-            <button class="form-submit" onclick="handleSubmit()">Send</button>
+
+            <div class="form-success" id="formSuccess">✓ Message sent — I'll get back to you soon!</div>
+
+            <button class="form-submit" id="sendBtn" onclick="handleSubmit()">
+              <span class="btn-text">Send</span>
+              <span class="btn-spinner"></span>
+            </button>
+
           </div>
         </div>
       </div>
@@ -580,9 +596,12 @@
 
   <footer>
     <div class="footer-inner">
-      <span class="footer-copy">© 2026 Thanh Vy Nguyen. All rights reserved. This website was built with the assistance of AI technology. All research, data, and project documentation are personally authored and verified to ensure accuracy and academic integrity. </span>
+      <span class="footer-copy">© 2026 Thanh Vy Nguyen. All rights reserved. This website was built with the assistance of AI technology. All research, data, and project documentation are personally authored and verified to ensure accuracy and academic integrity.</span>
     </div>
   </footer>
+
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <script>
     /* ── Hamburger ── */
@@ -613,24 +632,21 @@
       });
     }));
 
-    /* ── Color flash helper (research & education sections only) ── */
+    /* ── Color flash ── */
     function flashColor(el, color) {
       ['teal','blue','amber'].forEach(c => el.classList.remove(`flash-${c}`, 'flash-gone'));
       el.classList.add(`flash-${color}`);
       setTimeout(() => {
         el.classList.add('flash-gone');
-        setTimeout(() => {
-          ['teal','blue','amber'].forEach(c => el.classList.remove(`flash-${c}`, 'flash-gone'));
-        }, 700);
+        setTimeout(() => ['teal','blue','amber'].forEach(c => el.classList.remove(`flash-${c}`, 'flash-gone')), 700);
       }, 750);
     }
-
     function getSectionColor(el) {
       const s = el.closest('section[data-color]');
       return s ? s.dataset.color : null;
     }
 
-    /* ── Section headers: bidirectional slide from right ── */
+    /* ── Section headers ── */
     const headerObs = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         entry.target.classList.toggle('in',  entry.isIntersecting);
@@ -639,64 +655,158 @@
     }, { threshold: 0.25 });
     document.querySelectorAll('.pop-header').forEach(el => headerObs.observe(el));
 
-    /* ── All scroll-animated items: bidirectional with stagger ── */
+    /* ── Scroll items ── */
     const allAnimated = Array.from(document.querySelectorAll(
       '.pop-item, .fade-up, .slide-left, .slide-right, .proj-flip-left, .proj-drop, .proj-flip-right, .proj-zoom'
     ));
-
-    // Group siblings for stagger
     const groups = new Map();
     allAnimated.forEach(el => {
       const p = el.parentElement;
       if (!groups.has(p)) groups.set(p, []);
       groups.get(p).push(el);
     });
-
     const visible = new Set();
     const timers  = new Map();
-
     const itemObs = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         const el    = entry.target;
         const color = getSectionColor(el);
         const sibs  = groups.get(el.parentElement) || [el];
         const idx   = sibs.indexOf(el);
-
         if (entry.isIntersecting) {
           if (visible.has(el)) return;
           visible.add(el);
           clearTimeout(timers.get(el));
-          const t = setTimeout(() => {
+          timers.set(el, setTimeout(() => {
             el.classList.remove('out');
             el.classList.add('in');
-            // Only flash on pop-item elements that have a section color
             if (el.classList.contains('pop-item') && color) flashColor(el, color);
-          }, idx * 90);
-          timers.set(el, t);
+          }, idx * 90));
         } else {
           if (!visible.has(el)) return;
           visible.delete(el);
           clearTimeout(timers.get(el));
           el.classList.remove('in');
           el.classList.add('out');
-          const t = setTimeout(() => {
-            if (!visible.has(el)) el.classList.remove('out');
-          }, 650);
-          timers.set(el, t);
+          timers.set(el, setTimeout(() => { if (!visible.has(el)) el.classList.remove('out'); }, 650));
         }
       });
     }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
-
     allAnimated.forEach(el => itemObs.observe(el));
 
-    /* ── Contact form ── */
-    function handleSubmit() {
+    /* ════════════════════════════════════════
+       CONTACT FORM — validation + EmailJS send
+    ════════════════════════════════════════ */
+
+    /* EmailJS credentials — replace with your own from emailjs.com */
+    const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
+    const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+    const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
+
+    /* Char counter */
+    const msgEl     = document.getElementById('message');
+    const charCount = document.getElementById('charCount');
+    msgEl.addEventListener('input', () => {
+      const n = msgEl.value.trim().length;
+      charCount.textContent = `${n} / 25 min`;
+      charCount.className = 'char-count' + (n >= 25 ? ' ok' : n >= 12 ? ' warn' : '');
+      if (n > 0) validateMessage(false); // live recheck after first interaction
+    });
+
+    /* ── Helpers ── */
+    function markField(fieldId, errorId, msg) {
+      const el  = document.getElementById(fieldId);
+      const err = document.getElementById(errorId);
+      if (msg) {
+        el.classList.add('invalid');
+        el.classList.remove('valid');
+        if (err) err.textContent = msg;
+        return false;
+      }
+      el.classList.remove('invalid');
+      el.classList.add('valid');
+      if (err) err.textContent = '';
+      return true;
+    }
+
+    function validateName(show = true) {
+      const v = document.getElementById('name').value.trim();
+      if (!v)        return markField('name', 'nameError', show ? 'Full name is required.' : '');
+      if (v.length < 2) return markField('name', 'nameError', show ? 'Please enter your full name.' : '');
+      return markField('name', 'nameError', null);
+    }
+    function validateEmail(show = true) {
+      const v  = document.getElementById('email').value.trim();
+      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+      if (!v)  return markField('email', 'emailError', show ? 'Email is required.' : '');
+      if (!ok) return markField('email', 'emailError', show ? 'Please enter a valid email address.' : '');
+      return markField('email', 'emailError', null);
+    }
+    function validateMessage(show = true) {
+      const v = document.getElementById('message').value.trim();
+      if (!v)          return markField('message', 'messageError', show ? 'Message is required.' : '');
+      if (v.length < 25) return markField('message', 'messageError', show ? `At least 25 characters needed (${v.length}/25).` : '');
+      return markField('message', 'messageError', null);
+    }
+
+    /* Validate on blur — border turns red/green when you leave a field */
+    document.getElementById('name').addEventListener('blur',    () => validateName());
+    document.getElementById('email').addEventListener('blur',   () => validateEmail());
+    document.getElementById('message').addEventListener('blur', () => validateMessage());
+
+    /* ── Submit ── */
+    async function handleSubmit() {
+      const okN = validateName();
+      const okE = validateEmail();
+      const okM = validateMessage();
+      if (!okN || !okE || !okM) return;
+
+      const btn     = document.getElementById('sendBtn');
+      const success = document.getElementById('formSuccess');
       const name    = document.getElementById('name').value.trim();
       const email   = document.getElementById('email').value.trim();
       const message = document.getElementById('message').value.trim();
-      if (!name || !email || !message) { alert('Please fill in all fields.'); return; }
-      window.location.href =
-        `mailto:thanhvynguyen.research@gmail.com?subject=Portfolio inquiry from ${encodeURIComponent(name)}&body=${encodeURIComponent(message)}%0A%0AFrom: ${encodeURIComponent(email)}`;
+
+      btn.disabled = true;
+      btn.classList.add('loading');
+      success.classList.remove('show');
+
+      try {
+        /* If EmailJS is configured, send directly */
+        if (EMAILJS_SERVICE_ID !== 'YOUR_SERVICE_ID') {
+          await emailjs.send(
+            EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID,
+            { from_name: name, from_email: email, message },
+            EMAILJS_PUBLIC_KEY
+          );
+        } else {
+          /* Fallback: open mail client */
+          window.location.href =
+            `mailto:thanhvynguyen.research@gmail.com?subject=Portfolio inquiry from ${encodeURIComponent(name)}&body=${encodeURIComponent(message)}%0A%0AFrom: ${encodeURIComponent(email)}`;
+          btn.disabled = false;
+          btn.classList.remove('loading');
+          return;
+        }
+
+        /* Success — reset form */
+        success.classList.add('show');
+        ['name','email','message'].forEach(id => {
+          const el = document.getElementById(id);
+          el.value = '';
+          el.classList.remove('valid', 'invalid');
+        });
+        ['nameError','emailError','messageError'].forEach(id => {
+          document.getElementById(id).textContent = '';
+        });
+        charCount.textContent = '0 / 25 min';
+        charCount.className   = 'char-count';
+
+      } catch {
+        alert('Sorry, something went wrong. Please email directly: thanhvynguyen.research@gmail.com');
+      } finally {
+        btn.disabled = false;
+        btn.classList.remove('loading');
+      }
     }
   </script>
 
